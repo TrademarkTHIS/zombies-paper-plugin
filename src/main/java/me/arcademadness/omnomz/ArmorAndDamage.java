@@ -1,7 +1,5 @@
 package me.arcademadness.omnomz;
 
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -10,6 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import org.bukkit.Material;
+import org.bukkit.Sound;
+
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -97,5 +99,10 @@ public class ArmorAndDamage implements Listener {
                 victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 2));
             }
         }
+    }
+
+    @EventHandler
+    public void onSleep(PlayerBedEnterEvent event) {
+        event.getPlayer().removePotionEffect(PotionEffectType.WITHER);
     }
 }

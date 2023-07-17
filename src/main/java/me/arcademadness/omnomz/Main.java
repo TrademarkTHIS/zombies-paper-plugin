@@ -19,6 +19,8 @@ public final class Main extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new ZombieTracking(), this);
         pm.registerEvents(new ArmorAndDamage(), this);
+        pm.registerEvents(new DisableZombieFire(), this);
+        pm.registerEvents(new ReplaceHostiles(), this);
 
         log.info("omnnomz loaded successfully :)");
     }

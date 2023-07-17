@@ -11,9 +11,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.world.GenericGameEvent;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ZombieTracking implements Listener {
+
+    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
 
     @EventHandler
     public void onSound(GenericGameEvent event) {
@@ -45,7 +48,7 @@ public class ZombieTracking implements Listener {
 
                 List<Entity> entities = p.getNearbyEntities(r, r, r);
                 for (Entity e : entities) {
-                    if (e.getType() == EntityType.ZOMBIE) {
+                    if (Arrays.asList(mobs).contains(e.getType())) {
                         if (e.getLocation().y() >= (p.getLocation().y() - 10) && e.getLocation().y() <= (p.getLocation().y() + 10)) {
                             Zombie z = (Zombie) e;
 
