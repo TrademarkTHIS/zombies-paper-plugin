@@ -1,0 +1,14 @@
+name: Zombies
+version: '${project.version}'
+main: me.arcademadness.omnomz.Omnomz
+api-version: 1.20
+authors: [ Jake, Zombie ]
+description: Zombies can HEAR YOU
+commands:
+  zombies:
+    description: Gives information regarding the omnomz plugin.
+    usage: /<command>
+  zsummon:
+    description: summons zombies around you
+    usage: /<command>
+
