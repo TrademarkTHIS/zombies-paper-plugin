@@ -1,6 +1,6 @@
 name: Zombies
 version: '${project.version}'
-main: me.arcademadness.omnomz.Omnomz
+main: me.arcademadness.omnomz.Main
 api-version: 1.20
 authors: [ Jake, Zombie ]
 description: Zombies can HEAR YOU
