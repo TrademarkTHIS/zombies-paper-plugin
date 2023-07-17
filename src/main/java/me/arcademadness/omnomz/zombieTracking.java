@@ -1,6 +1,7 @@
 package me.arcademadness.omnomz;
 
 import org.bukkit.GameEvent;
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
@@ -36,6 +37,10 @@ public class zombieTracking implements Listener {
                 if (event.getEvent() == GameEvent.ITEM_INTERACT_START)
                     return;
                 if (event.getEvent() == GameEvent.ITEM_INTERACT_FINISH)
+                    return;
+
+                //Don't run if the player is in creative/spectator
+                if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
                     return;
 
                 List<Entity> entities = p.getNearbyEntities(r, r, r);
