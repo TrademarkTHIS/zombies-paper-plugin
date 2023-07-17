@@ -17,7 +17,6 @@ public class zombieTracking implements Listener {
     @EventHandler
     public void onSound(GenericGameEvent event) {
         if (event.getEntity() != null) {
-
             double r = 256;
 
             if (event.getEntity().getType() == EntityType.PLAYER) {

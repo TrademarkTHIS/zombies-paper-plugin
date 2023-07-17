@@ -21,7 +21,6 @@ public final class Omnomz extends JavaPlugin {
         pm.registerEvents(new ArmorAndDamage(), this);
 
         log.info("omnnomz loaded successfully :)");
-
     }
 
     @Override
