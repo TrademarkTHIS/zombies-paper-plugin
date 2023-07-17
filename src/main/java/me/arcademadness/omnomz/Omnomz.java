@@ -1,20 +1,26 @@
 package me.arcademadness.omnomz;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 public final class Omnomz extends JavaPlugin {
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        Logger log = Bukkit.getLogger();
+
         this.getCommand("zombies").setExecutor(new HelpCommand());
         this.getCommand("zsummon").setExecutor(new SummonCommand());
 
-        Bukkit.getServer().getPluginManager().registerEvents(new zombieTracking(), this);
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new zombieTracking(), this);
+        pm.registerEvents(new ArmorAndDamage(), this);
 
-
-        System.out.println("omnnomz loaded successfully :)");
+        log.info("omnnomz loaded successfully :)");
 
     }
 
