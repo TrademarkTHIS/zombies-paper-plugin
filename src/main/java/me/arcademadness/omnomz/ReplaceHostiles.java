@@ -1,5 +1,7 @@
 package me.arcademadness.omnomz;
 
+import org.bukkit.World;
+import org.bukkit.WorldType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
@@ -18,8 +20,10 @@ public class ReplaceHostiles implements Listener {
 
         if (event.getEntity() instanceof Monster) {
             if (event.getEntity().getLocation().y() > 62) {
-                event.setCancelled(true);
-                event.getLocation().getWorld().spawnEntity(event.getLocation(), EntityType.ZOMBIE);
+                if (event.getEntity().getWorld().getEnvironment() == World.Environment.NORMAL) {
+                    event.setCancelled(true);
+                    event.getLocation().getWorld().spawnEntity(event.getLocation(), EntityType.ZOMBIE);
+                }
             }
         }
     }
