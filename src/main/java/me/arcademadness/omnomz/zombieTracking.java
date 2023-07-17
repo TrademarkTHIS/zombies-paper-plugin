@@ -16,7 +16,7 @@ public class zombieTracking implements Listener {
 
     @EventHandler
     public void onSound(GenericGameEvent event) {
-        if (event.getEntity() != null && event.getEntity().getType() != null) {
+        if (event.getEntity() != null) {
 
             double r = 256;
 
@@ -49,8 +49,6 @@ public class zombieTracking implements Listener {
                                 return;
                             } else {
                                 z.setTarget(p);
-                                p.sendMessage("A Zombie Targeted YOU!!!");
-
                             }
                         }
                     }
