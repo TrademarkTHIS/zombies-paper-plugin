@@ -11,8 +11,9 @@ public final class Omnomz extends JavaPlugin {
         this.getCommand("zombies").setExecutor(new HelpCommand());
         this.getCommand("zsummon").setExecutor(new SummonCommand());
 
-
         Bukkit.getServer().getPluginManager().registerEvents(new zombieTracking(), this);
+
+
         System.out.println("omnnomz loaded successfully :)");
 
     }
