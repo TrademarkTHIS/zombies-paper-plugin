@@ -22,7 +22,6 @@ public class ArmorAndDamage implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-
         double hitChance = 20;
 
         LivingEntity victim = (LivingEntity) event.getEntity();
@@ -85,13 +84,11 @@ public class ArmorAndDamage implements Listener {
                 }
 
                 if (random <= (hitChance * 5)) {
-                    p.sendMessage("hit");
                     victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 2));
                     p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1, 1);
                 }
                 else {
-                    p.sendMessage("missed.");
                     event.setDamage(0.5);
                     p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1, 1.5f);
                 }
