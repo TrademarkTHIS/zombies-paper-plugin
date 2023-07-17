@@ -17,7 +17,7 @@ public final class Main extends JavaPlugin {
         this.getCommand("zsummon").setExecutor(new SummonCommand());
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new zombieTracking(), this);
+        pm.registerEvents(new ZombieTracking(), this);
         pm.registerEvents(new ArmorAndDamage(), this);
 
         log.info("omnnomz loaded successfully :)");

@@ -13,7 +13,7 @@ import org.bukkit.event.world.GenericGameEvent;
 
 import java.util.List;
 
-public class zombieTracking implements Listener {
+public class ZombieTracking implements Listener {
 
     @EventHandler
     public void onSound(GenericGameEvent event) {
