@@ -81,12 +81,26 @@ public class ArmorAndDamage implements Listener {
 
                 double random = Math.random() * 100;
 
+                if (hitChance==20)
+                    hitChance=19.8;
+
                 if (lastHit.get(p) != null) {
                     if (Duration.between(lastHit.get(p), Instant.now()).toMillis() < 700) hitChance=20;
                 }
 
                 if (random <= (hitChance * 5)) {
-                    victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 2));
+                    event.setDamage(2);
+
+                    //Increases amplifier per bite and adds saturation on the first.
+                    int amp = 0;
+                    if (p.getPotionEffect(PotionEffectType.WITHER) !=null) {
+                        amp = p.getPotionEffect(PotionEffectType.WITHER).getAmplifier() + 1;
+                    } else {
+                        if (p.getFoodLevel() > 19)
+                            p.setSaturation(20 + p.getSaturation());
+                    }
+
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, amp));
                     p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1, 1);
                 }
@@ -96,7 +110,7 @@ public class ArmorAndDamage implements Listener {
                 }
                 lastHit.put(p, Instant.now());
             } else {
-                victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 2));
+                victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 1));
             }
         }
     }

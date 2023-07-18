@@ -27,16 +27,23 @@ public class ZombieTracking implements Listener {
 
     @EventHandler
     public void onSound(GenericGameEvent event) {
+        double r = 256;
         if (event.getEntity() != null) {
-            if (event.getEntity().getType() != EntityType.PLAYER) return;
-            double r = 256;
 
+            //Not a player? get the fuck out of 'ere...
+            if (event.getEntity().getType() != EntityType.PLAYER) return;
             Player p = (Player) event.getEntity();
 
+            //Don't run if the player is in creative/spectator.
+            if (p.getGameMode() == GameMode.SPECTATOR || p.getGameMode() == GameMode.CREATIVE) return;
+
+            //Don't run if code was run for player less than 5 seconds ago.
+            //Can be adjusted later if 5 seconds is not long enough.
             if (lastAlert.get(p) != null) {
                 if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < 5000) return;
             }
 
+            //By using similar if statements we could tune their targeting system.
             if (event.getEvent() == GameEvent.STEP)
                 return;
             if (event.getEvent() == GameEvent.ELYTRA_GLIDE)
@@ -48,10 +55,6 @@ public class ZombieTracking implements Listener {
             if (event.getEvent() == GameEvent.ITEM_INTERACT_START)
                 return;
             if (event.getEvent() == GameEvent.ITEM_INTERACT_FINISH)
-                return;
-
-            //Don't run if the player is in creative/spectator
-            if (p.getGameMode() == GameMode.SPECTATOR)
                 return;
 
             lastAlert.put(p, Instant.now());
@@ -74,6 +77,12 @@ public class ZombieTracking implements Listener {
         if (event.getReason() == EntityTargetEvent.TargetReason.FORGOT_TARGET || event.getReason() == EntityTargetEvent.TargetReason.UNKNOWN) {
             if (Arrays.asList(mobs).contains(event.getEntity().getType())) {
                 Zombie z = (Zombie) event.getEntity();
+                if (z.getTarget() != null) {
+                    if (z.getTarget().getType() == EntityType.PLAYER) {
+                        Player p = (Player) z.getTarget();
+                        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
+                    }
+                }
                 if (z.getTarget() != null) {
                     if (z.getTarget().getLocation().distance(event.getEntity().getLocation()) < 256) {
                         event.setCancelled(true);
