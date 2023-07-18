@@ -1,15 +1,13 @@
 package me.arcademadness.omnomz;
 
-import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import org.bukkit.World;
-import org.bukkit.WorldType;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ReplaceHostiles implements Listener {
 
@@ -19,8 +17,24 @@ public class ReplaceHostiles implements Listener {
     public void onSpawn(EntitySpawnEvent event) {
         if (Arrays.asList(mobs).contains(event.getEntity().getType())) {
             LivingEntity le = (LivingEntity) event.getEntity();
+            List<Entity> totalSaved = new ArrayList<>();
+
             if (le.getLocation().y() > 62) {
-                le.setRemoveWhenFarAway(false);
+                List<Entity> totalEntities = event.getLocation().getWorld().getEntities();
+                for (Entity e : totalEntities) {
+                    if (Arrays.asList(mobs).contains(e.getType())) {
+                        LivingEntity livingTotal = (LivingEntity) e;
+                        if (!livingTotal.getRemoveWhenFarAway()) {
+                            if (livingTotal != null) totalSaved.add(livingTotal);
+                        }
+                    }
+                }
+                if (totalSaved.size() >= event.getLocation().getWorld().getPlayerCount() * 70) {
+                    int randomZombieIndex = ThreadLocalRandom.current().nextInt(totalSaved.size()) % totalSaved.size();
+                    LivingEntity livingBoy = (LivingEntity) totalSaved.get(randomZombieIndex);
+                    livingBoy.setRemoveWhenFarAway(true);
+                }
+            le.setRemoveWhenFarAway(false);
                 List<Entity> entities = event.getEntity().getNearbyEntities(15, 15, 15);
                 for (Entity e : entities) {
                     if (Arrays.asList(mobs).contains(e.getType())) {

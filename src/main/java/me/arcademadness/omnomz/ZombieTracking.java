@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class ZombieTracking implements Listener {
 
     private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
-    Logger log = Bukkit.getLogger();
 
     @EventHandler
     public void onSound(GenericGameEvent event) {
@@ -51,7 +50,6 @@ public class ZombieTracking implements Listener {
                 if (p.getGameMode() == GameMode.SPECTATOR)
                     return;
 
-                int count = 0, found = 0;
                 List<Entity> entities = p.getNearbyEntities(r, r, r);
                 for (Entity e : entities) {
                     if (Arrays.asList(mobs).contains(e.getType())) {
@@ -59,9 +57,7 @@ public class ZombieTracking implements Listener {
                             Zombie z = (Zombie) e;
                             if (z.getTarget() == null) {
                                 z.setTarget(p);
-                                count++;
                             }
-                            found++;
                         }
                     }
                 }
