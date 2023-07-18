@@ -11,4 +11,6 @@ commands:
   zsummon:
     description: summons zombies around you
     usage: /<command>
-
+  zsniper:
+    description: gives you trident with mysterious powers.
+    usage: /<command>

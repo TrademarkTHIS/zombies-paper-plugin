@@ -13,11 +13,12 @@ public class SummonCommand implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            int i;
-            for (i = 0; i < 10; i++) {
+            int i, amount = 10;
+            amount = Integer.parseInt(args[0]);
+            for (i = 0; i < amount; i++) {
                 p.getWorld().spawnEntity(p.getLocation(), EntityType.ZOMBIE);
             }
-            p.sendMessage("Summoned " + (i+1) + " zombies!");
+            p.sendMessage("Summoned " + (i) + " zombies!");
             return true;
         }
         return false;
