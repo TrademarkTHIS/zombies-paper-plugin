@@ -17,9 +17,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.time.Instant;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ArmorAndDamage implements Listener {
+
+    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
     HashMap<Player, Instant> lastHit = new HashMap<>();
 
     @EventHandler
@@ -29,7 +32,7 @@ public class ArmorAndDamage implements Listener {
         LivingEntity victim = (LivingEntity) event.getEntity();
         Entity attacker = event.getDamager();
 
-        if (attacker.getType() == EntityType.ZOMBIE) {
+        if (Arrays.asList(mobs).contains(attacker.getType())) {
             if (victim.getType() == EntityType.PLAYER) {
                 Player p = (Player) victim;
 

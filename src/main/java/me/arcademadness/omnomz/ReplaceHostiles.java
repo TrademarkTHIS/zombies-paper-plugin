@@ -19,6 +19,9 @@ public class ReplaceHostiles implements Listener {
             LivingEntity le = (LivingEntity) event.getEntity();
             List<Entity> totalSaved = new ArrayList<>();
 
+            le.setHealth(le.getHealth() / 3);
+            le.setMaxHealth(le.getMaxHealth() / 3);
+
             if (le.getLocation().y() > 62) {
                 List<Entity> totalEntities = event.getLocation().getWorld().getEntities();
                 for (Entity e : totalEntities) {
