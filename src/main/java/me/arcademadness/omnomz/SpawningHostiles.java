@@ -5,11 +5,13 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ReplaceHostiles implements Listener {
+public class SpawningHostiles implements Listener {
 
     private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
 
@@ -19,6 +21,7 @@ public class ReplaceHostiles implements Listener {
             LivingEntity le = (LivingEntity) event.getEntity();
             List<Entity> totalSaved = new ArrayList<>();
 
+            le.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 2, false, false));
             le.setHealth(le.getHealth() / 3);
             le.setMaxHealth(le.getMaxHealth() / 3);
 

@@ -24,7 +24,8 @@ public final class Main extends JavaPlugin {
         pm.registerEvents(new ZombieTracking(), this);
         pm.registerEvents(new ArmorAndDamage(), this);
         pm.registerEvents(new DisableZombieFire(), this);
-        pm.registerEvents(new ReplaceHostiles(), this);
+        pm.registerEvents(new SpawningHostiles(), this);
+        pm.registerEvents(new MakeZombieJump(), this);
         //pm.registerEvents(new SubHardcore(), this);
 
         log.info("omnnomz loaded successfully :)");
