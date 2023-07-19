@@ -96,7 +96,7 @@ public class ArmorAndDamage implements Listener {
                     if (p.getPotionEffect(PotionEffectType.WITHER) !=null) {
                         amp = p.getPotionEffect(PotionEffectType.WITHER).getAmplifier() + 1;
                     } else {
-                        if (p.getFoodLevel() > 19)
+                        if (p.getFoodLevel() >= 19)
                             p.setSaturation(20 + p.getSaturation());
                     }
 

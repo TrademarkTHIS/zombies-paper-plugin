@@ -22,11 +22,12 @@ import java.util.List;
 public class ZombieTracking implements Listener {
 
     private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
+    private static final GameEvent quietEvents[] = {GameEvent.STEP, GameEvent.ELYTRA_GLIDE, GameEvent.HIT_GROUND, GameEvent.SWIM, GameEvent.ITEM_INTERACT_FINISH, GameEvent.ITEM_INTERACT_START};
     HashMap<Player, Instant> lastAlert = new HashMap<>();
 
 
     @EventHandler
-    public void onSound(GenericGameEvent event) {
+    public void onAlert(GenericGameEvent event) {
         double r = 256;
         if (event.getEntity() != null) {
 
@@ -43,19 +44,7 @@ public class ZombieTracking implements Listener {
                 if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < 5000) return;
             }
 
-            //By using similar if statements we could tune their targeting system.
-            if (event.getEvent() == GameEvent.STEP)
-                return;
-            if (event.getEvent() == GameEvent.ELYTRA_GLIDE)
-                return;
-            if (event.getEvent() == GameEvent.HIT_GROUND)
-                return;
-            if (event.getEvent() == GameEvent.SWIM)
-                return;
-            if (event.getEvent() == GameEvent.ITEM_INTERACT_START)
-                return;
-            if (event.getEvent() == GameEvent.ITEM_INTERACT_FINISH)
-                return;
+            if (Arrays.asList(quietEvents).contains(event.getEvent())) return;
 
             lastAlert.put(p, Instant.now());
             List<Entity> entities = p.getNearbyEntities(r, r, r);
