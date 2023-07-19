@@ -36,9 +36,11 @@ public class SpawningHostiles implements Listener {
                     }
                 }
                 if (totalSaved.size() >= event.getLocation().getWorld().getPlayerCount() * 70) {
-                    int randomZombieIndex = ThreadLocalRandom.current().nextInt(totalSaved.size()) % totalSaved.size();
-                    LivingEntity livingBoy = (LivingEntity) totalSaved.get(randomZombieIndex);
-                    livingBoy.setRemoveWhenFarAway(true);
+                    if (event.getLocation().getBlock().getLightFromSky() > 3) {
+                        int randomZombieIndex = ThreadLocalRandom.current().nextInt(totalSaved.size()) % totalSaved.size();
+                        LivingEntity livingBoy = (LivingEntity) totalSaved.get(randomZombieIndex);
+                        livingBoy.setRemoveWhenFarAway(true);
+                    }
                 }
             le.setRemoveWhenFarAway(false);
                 List<Entity> entities = event.getEntity().getNearbyEntities(15, 15, 15);

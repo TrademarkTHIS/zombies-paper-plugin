@@ -19,7 +19,8 @@ public class MakeZombieJump implements Listener {
         Zombie z = (Zombie) event.getEntity();
         if (z.getTarget() != null)
             if (!z.hasLineOfSight(z.getTarget()))
-                if (z.getTarget().getLocation().y() > z.getLocation().y())
-                    z.setJumping(true);
+                if (z.getTarget().getLocation().y()+1 > z.getLocation().y())
+                    if (z.getTarget().getLocation().distance(z.getLocation()) <= 12)
+                        z.setJumping(true);
     }
 }
