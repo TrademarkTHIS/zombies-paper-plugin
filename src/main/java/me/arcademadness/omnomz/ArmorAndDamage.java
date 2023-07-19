@@ -1,5 +1,6 @@
 package me.arcademadness.omnomz;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -60,7 +61,7 @@ public class ArmorAndDamage implements Listener {
 
                 //leggings
                 if (p.getInventory().getLeggings() != null) {
-                    if (p.getInventory().getLeggings().getType() == Material.NETHERITE_LEGGINGS || p.getInventory().getHelmet().getType() == Material.DIAMOND_LEGGINGS)
+                    if (p.getInventory().getLeggings().getType() == Material.NETHERITE_LEGGINGS || p.getInventory().getLeggings().getType() == Material.DIAMOND_LEGGINGS)
                         hitChance -= 6;
                     if (p.getInventory().getLeggings().getType() == Material.IRON_LEGGINGS)
                         hitChance -= 5;
@@ -104,15 +105,21 @@ public class ArmorAndDamage implements Listener {
                     }
 
                     p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, amp));
-                    p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
-                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1, 1);
+
+                    for (Player players : Bukkit.getOnlinePlayers()){
+                        players.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
+                        players.playSound(p.getLocation(), Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1, 1);
+                    }
                 }
                 else {
                     event.setDamage(0.5);
-                    p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1, 1.5f);
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        players.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1, 1.5f);
+                    }
                 }
                 lastHit.put(p, Instant.now());
             } else {
+                if (victim.getType() == EntityType.IRON_GOLEM) return;
                 victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 24000, 1));
             }
         }

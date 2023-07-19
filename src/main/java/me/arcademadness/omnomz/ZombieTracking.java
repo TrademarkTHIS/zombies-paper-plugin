@@ -74,7 +74,8 @@ public class ZombieTracking implements Listener {
                 }
                 if (z.getTarget() != null) {
                     if (z.getTarget().getLocation().distance(event.getEntity().getLocation()) < 256) {
-                        event.setCancelled(true);
+                        if (z.getTarget().getType().isAlive())
+                            event.setCancelled(true);
                     }
                 }
             }
