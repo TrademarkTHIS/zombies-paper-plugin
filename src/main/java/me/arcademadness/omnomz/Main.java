@@ -1,15 +1,18 @@
 package me.arcademadness.omnomz;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
+    private static Plugin plugin;
 
     @Override
     public void onEnable() {
+        plugin = this;
         // Plugin startup logic
         Logger log = Bukkit.getLogger();
 
@@ -22,6 +25,7 @@ public final class Main extends JavaPlugin {
         pm.registerEvents(new ArmorAndDamage(), this);
         pm.registerEvents(new DisableZombieFire(), this);
         pm.registerEvents(new ReplaceHostiles(), this);
+        //pm.registerEvents(new SubHardcore(), this);
 
         log.info("omnnomz loaded successfully :)");
     }
@@ -29,6 +33,10 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Plugin getPlugin() {
+        return plugin;
     }
 }
 
