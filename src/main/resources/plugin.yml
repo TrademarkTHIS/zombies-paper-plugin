@@ -9,10 +9,10 @@ commands:
     description: Gives information regarding the omnomz plugin.
     usage: /<command>
   zsummon:
-    description: summons zombies around you
+    description: summons zombies around you.
     usage: /<command>
-    aliases: zs
+    aliases: zspawn
   zsniper:
     description: gives you trident with mysterious powers.
     usage: /<command>
-    aliases: zsn
+    aliases: ztrident
