@@ -21,5 +21,5 @@ public class HelpCommand implements CommandExecutor {
             return true;
         }
         return false;
-    }
+    }// :)
 }
