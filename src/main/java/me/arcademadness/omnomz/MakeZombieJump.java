@@ -19,12 +19,16 @@ public class MakeZombieJump implements Listener {
     private void onZombieMove(EntityMoveEvent event) {
         if (!Arrays.asList(mobs).contains(event.getEntity().getType())) return;
         Zombie z = (Zombie) event.getEntity();
-        if (z.getTarget() != null)
-            if (!z.hasLineOfSight(z.getTarget()))
-                if (z.getTarget().getLocation().y()+1 > z.getLocation().y())
+        if (z.getTarget() == null) return;
+        if (!z.hasLineOfSight(z.getTarget())) {
+            if (z.getTarget().getLocation().y() + 1 > z.getLocation().y()) {
+                if (z.getTarget().getWorld().getEnvironment() == z.getWorld().getEnvironment()) {
                     if (z.getTarget().getLocation().distance(z.getLocation()) <= 6) {
                         z.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, 2, false, false));
                         z.setJumping(true);
                     }
+                }
+            }
+        }
     }
 }
