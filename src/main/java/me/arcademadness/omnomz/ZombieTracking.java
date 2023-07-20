@@ -1,19 +1,17 @@
 package me.arcademadness.omnomz;
 
-import org.bukkit.GameEvent;
-import org.bukkit.GameMode;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.world.GenericGameEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -35,6 +33,7 @@ public class ZombieTracking implements Listener {
     HashMap<Player, Instant> lastAlert = new HashMap<>();
 
     private void alert(Player p, double r) {
+        if (lastAlert.get(p) != null) { if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < 5000) return; }
         lastAlert.put(p, Instant.now());
         List<Entity> entities = p.getNearbyEntities(r, r, r);
         for (Entity e : entities) {
@@ -44,8 +43,10 @@ public class ZombieTracking implements Listener {
                     if (z.getTarget() == null) {
                         z.setTarget(p);
                     } else {
-                        if (z.getLocation().distance(p.getLocation()) < z.getLocation().distance(z.getTarget().getLocation())) {
-                            z.setTarget(p);
+                        if (z.getTarget().getEntityId() != p.getEntityId()) {
+                            if (z.getLocation().distance(p.getLocation()) < z.getLocation().distance(z.getTarget().getLocation())) {
+                                z.setTarget(p);
+                            }
                         }
                     }
                 }
@@ -61,12 +62,9 @@ public class ZombieTracking implements Listener {
             if (event.getEntity().getType() != EntityType.PLAYER) return;
             Player p = (Player) event.getEntity();
             if (p.getGameMode() == GameMode.SPECTATOR || p.getGameMode() == GameMode.CREATIVE) return;
-            if (lastAlert.get(p) != null) { if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < 5000) return; }
             if (Arrays.asList(quietEvents).contains(event.getEvent())) return;
 
             if (event.getEvent() == GameEvent.SPLASH) radius /= 3;
-
-            p.sendActionBar(String.valueOf(event.getEvent().getKey()));
 
             this.alert(p, radius);
         }
@@ -112,5 +110,12 @@ public class ZombieTracking implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPickupZombie(EntityPickupItemEvent event) {
+        if (!Arrays.asList(mobs).contains(event.getEntity().getType())) return;
+
+        if (event.getItem().getItemStack().isSimilar(new ItemStack(Material.ROTTEN_FLESH))) { event.setCancelled(true); }
     }
 }
