@@ -13,7 +13,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpawningHostiles implements Listener {
 
-    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
+    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK, EntityType.ZOMBIE_VILLAGER};
+    private static final EntityType persistent[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK};
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
@@ -21,14 +22,13 @@ public class SpawningHostiles implements Listener {
             LivingEntity le = (LivingEntity) event.getEntity();
             List<Entity> totalSaved = new ArrayList<>();
 
-            le.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 2, false, false));
             le.setHealth(le.getHealth() / 3);
             le.setMaxHealth(le.getMaxHealth() / 3);
 
             if (le.getLocation().y() > 62) {
                 List<Entity> totalEntities = event.getLocation().getWorld().getEntities();
                 for (Entity e : totalEntities) {
-                    if (Arrays.asList(mobs).contains(e.getType())) {
+                    if (Arrays.asList(persistent).contains(e.getType())) {
                         LivingEntity livingTotal = (LivingEntity) e;
                         if (!livingTotal.getRemoveWhenFarAway()) {
                             if (livingTotal != null) totalSaved.add(livingTotal);

@@ -22,7 +22,14 @@ import java.util.List;
 public class ZombieTracking implements Listener {
 
     private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
-    private static final GameEvent quietEvents[] = {GameEvent.STEP, GameEvent.ELYTRA_GLIDE, GameEvent.HIT_GROUND, GameEvent.SWIM, GameEvent.ITEM_INTERACT_FINISH, GameEvent.ITEM_INTERACT_START};
+    private static final GameEvent quietEvents[] = {
+            GameEvent.STEP,
+            GameEvent.ELYTRA_GLIDE,
+            GameEvent.HIT_GROUND,
+            GameEvent.SWIM,
+            GameEvent.ITEM_INTERACT_FINISH,
+            GameEvent.ITEM_INTERACT_START
+    };
     HashMap<Player, Instant> lastAlert = new HashMap<>();
 
 
