@@ -16,3 +16,6 @@ commands:
     description: gives you trident with mysterious powers.
     usage: /<command>
     aliases: ztrident
+  zbetween:
+    description: tells you which blocks are between you and your target.
+    usage: /<command>

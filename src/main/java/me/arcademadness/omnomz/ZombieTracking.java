@@ -1,5 +1,6 @@
 package me.arcademadness.omnomz;
 
+import com.destroystokyo.paper.entity.Pathfinder;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -32,23 +33,44 @@ public class ZombieTracking implements Listener {
     };
     HashMap<Player, Instant> lastAlert = new HashMap<>();
 
-    private void alert(Player p, double r) {
-        if (lastAlert.get(p) != null) { if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < 5000) return; }
+    private void alert(Player p, double radius) {
+        //putting these here (in order they're used) for easy adjustment.
+        //this stuff will probably require further tweaking
+        int alertDelay = 5000;
+        int layerWiggleRoom = 12;
+        double finalPointRadius = 12;
+
+        if (lastAlert.get(p) != null) { if (Duration.between(lastAlert.get(p), Instant.now()).toMillis() < alertDelay) return; }
         lastAlert.put(p, Instant.now());
-        List<Entity> entities = p.getNearbyEntities(r, r, r);
+
+        List<Entity> entities = p.getNearbyEntities(radius, radius, radius);
+
+        int index=0, delay=0;
+
         for (Entity e : entities) {
             if (Arrays.asList(mobs).contains(e.getType())) {
                 Zombie z = (Zombie) e;
-                if ((e.getLocation().y() > 62 && p.getLocation().y() > 62) || (e.getLocation().y() <= 62 && p.getLocation().y() <= 62) || (e.getLocation().y() < p.getLocation().y()+12 && e.getLocation().y() > p.getLocation().y()-12)) {
-                    if (z.getTarget() == null) {
-                        z.setTarget(p);
-                    } else {
-                        if (z.getTarget().getEntityId() != p.getEntityId()) {
-                            if (z.getLocation().distance(p.getLocation()) < z.getLocation().distance(z.getTarget().getLocation())) {
-                                z.setTarget(p);
+                Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+                    if ((e.getLocation().y() > 62 && p.getLocation().y() > 62) || (e.getLocation().y() <= 62 && p.getLocation().y() <= 62) || (e.getLocation().y() < p.getLocation().y()+layerWiggleRoom && e.getLocation().y() > p.getLocation().y()-layerWiggleRoom)) {
+                        Pathfinder.PathResult zPath = z.getPathfinder().findPath(p.getLocation());
+                        if (zPath != null) {
+                            if (zPath.getFinalPoint().distance(p.getLocation()) < finalPointRadius) {
+                                if (z.getTarget() == null) {
+                                    z.setTarget(p);
+                                } else {
+                                    if (z.getTarget().getEntityId() != p.getEntityId()) {
+                                        if (z.getLocation().distance(p.getLocation()) < z.getLocation().distance(z.getTarget().getLocation())) {
+                                            z.setTarget(p);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                }, delay);
+                index++;
+                if (index % 10 == 0) {
+                    delay++;
                 }
             }
         }
@@ -72,9 +94,8 @@ public class ZombieTracking implements Listener {
 
     @EventHandler
     public void onItemBreak(PlayerItemBreakEvent event) {
-        double radius = 256;
         Player p = event.getPlayer();
-        this.alert(p, radius);
+        this.alert(p, 256);
     }
 
     @EventHandler

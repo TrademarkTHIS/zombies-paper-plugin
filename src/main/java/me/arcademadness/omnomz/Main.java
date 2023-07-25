@@ -19,6 +19,7 @@ public final class Main extends JavaPlugin {
         this.getCommand("zombies").setExecutor(new HelpCommand());
         this.getCommand("zsummon").setExecutor(new SummonCommand());
         this.getCommand("zsniper").setExecutor(new SniperCommand());
+        this.getCommand("zbetween").setExecutor(new BetweenCommand());
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new ZombieTracking(), this);
