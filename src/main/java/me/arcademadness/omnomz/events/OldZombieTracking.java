@@ -1,6 +1,7 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.events;
 
 import com.destroystokyo.paper.entity.Pathfinder;
+import me.arcademadness.omnomz.Main;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -20,8 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class ZombieTracking implements Listener {
-
+public class OldZombieTracking implements Listener {
     private static final EntityType[] mobs = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
     private static final GameEvent[] quietEvents = new GameEvent[]{
             GameEvent.STEP,

@@ -1,7 +1,5 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.commands;
 
-import io.papermc.paper.event.player.AsyncChatCommandDecorateEvent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -11,8 +9,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
 
 public class SniperCommand implements CommandExecutor {
 

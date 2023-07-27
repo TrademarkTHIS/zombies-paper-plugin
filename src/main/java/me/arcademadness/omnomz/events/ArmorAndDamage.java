@@ -1,4 +1,4 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class ArmorAndDamage implements Listener {
 
-    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
+    private static final EntityType[] mobs = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.ZOMBIE_VILLAGER};
     HashMap<Player, Instant> lastHit = new HashMap<>();
 
     @EventHandler

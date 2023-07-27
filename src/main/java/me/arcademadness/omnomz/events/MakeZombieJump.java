@@ -1,4 +1,4 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.events;
 
 import io.papermc.paper.event.entity.EntityMoveEvent;
 

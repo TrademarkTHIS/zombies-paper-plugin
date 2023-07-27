@@ -1,4 +1,4 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.events;
 
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;

@@ -1,4 +1,4 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.events;
 
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -11,8 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpawningHostiles implements Listener {
 
-    private static final EntityType mobs[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK, EntityType.ZOMBIE_VILLAGER};
-    private static final EntityType persistent[] = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK};
+    private static final EntityType[] mobs = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK, EntityType.ZOMBIE_VILLAGER};
+    private static final EntityType[] persistent = {EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED, EntityType.HUSK};
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {

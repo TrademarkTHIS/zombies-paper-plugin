@@ -1,4 +1,4 @@
-package me.arcademadness.omnomz;
+package me.arcademadness.omnomz.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
