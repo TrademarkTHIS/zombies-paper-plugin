@@ -22,7 +22,6 @@ public class FollowSoundGoal implements Goal<Zombie> {
 
     private Instant startTime;
     private Location lastLocation = null;
-    private Location startSpot = null;
     private SoundObject targetSound = null;
     private SoundObject oldSound = null;
 
@@ -36,6 +35,7 @@ public class FollowSoundGoal implements Goal<Zombie> {
 
     @Override
     public boolean shouldActivate() {
+        if (mob.getTarget() != null) return false;
         SoundObject check = this.checkSounds();
         if (targetSound == null)
             if (check != null) {
@@ -46,13 +46,19 @@ public class FollowSoundGoal implements Goal<Zombie> {
 
     @Override
     public boolean shouldStayActive() {
+        if (mob.getTarget() != null) return false;
         SoundObject check = this.checkSounds();
-
-        if (targetSound != null) {
-            if (check.getAge().isAfter(targetSound.getAge())) {
-                if (check.getLocation().distance(mob.getLocation()) < targetSound.getLocation().distance((mob.getLocation()))) {
-                    targetSound = check;
-                    careTimer = 0;
+        if (check != null) {
+            if (targetSound != null) {
+                if (targetSound.getLocation().distance(check.getLocation()) > 6) {
+                    if (check.getAge().isAfter(targetSound.getAge())) {
+                        if (check.getLocation().distance(mob.getLocation()) < targetSound.getLocation().distance((mob.getLocation()))) {
+                            if (check.getLocation().distance(targetSound.getLocation()) > 6) {
+                                targetSound = check;
+                                careTimer = 0;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -61,7 +67,6 @@ public class FollowSoundGoal implements Goal<Zombie> {
 
     @Override
     public void start() {
-        startSpot = mob.getLocation();
     }
 
     @Override
@@ -79,12 +84,17 @@ public class FollowSoundGoal implements Goal<Zombie> {
             targetSound = null;
             startTime = Instant.now();
             this.stop();
-
+        }
+        if (mob.getTarget() != null) {
+            oldSound = targetSound;
+            targetSound = null;
+            startTime = Instant.now();
+            this.stop();
         }
         if (lastLocation == null) lastLocation = mob.getLocation();
-        if (mob.getLocation().distance(lastLocation) < 16) {
+        if (mob.getLocation().distance(lastLocation) < 8) {
             careTimer++;
-            if (careTimer > 240) {
+            if (careTimer > 120) {
                 careTimer = 0;
                 lastLocation = null;
                 oldSound = targetSound;
@@ -112,30 +122,24 @@ public class FollowSoundGoal implements Goal<Zombie> {
     private SoundObject checkSounds() {
         HashMap<Player, SoundObject> alertSounds = SoundEvents.getAlertSounds();
         SoundObject closestSound = null;
+        if (targetSound != null) return null;
+
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             SoundObject s = alertSounds.get(player);
-            if (s != null) {
-                if (s.getLocation().getWorld().getEnvironment() == mob.getLocation().getWorld().getEnvironment()) {
-                    if (s.getAge().isAfter(startTime)) {
-                        if (s.getLocation().distance(mob.getLocation()) < s.getRange()) {
-                            if (!s.isSame(oldSound)) {
-                                if (closestSound == null) {
-                                    closestSound = s;
-                                }
-                                if (s.getLocation().distance(mob.getLocation()) < closestSound.getLocation().distance(mob.getLocation())) {
-                                    if (oldSound != null) {
-                                        if (s.getAge().isAfter(oldSound.getAge())) {
-                                            closestSound = s;
-                                        }
-                                    } else {
-                                        closestSound = s;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            if (s == null) continue;
+
+            if (s.getLocation().getWorld().getEnvironment() != mob.getLocation().getWorld().getEnvironment()) continue;
+            if (s.getAge().isBefore(startTime)) continue;
+            if (s.getLocation().distance(mob.getLocation()) > s.getRange()) continue;
+            if (s.isSame(oldSound)) continue;
+            if (closestSound == null) closestSound = s;
+            if (s.getLocation().distance(mob.getLocation()) > closestSound.getLocation().distance(mob.getLocation())) continue;
+
+            if (oldSound != null) {
+                if (s.getAge().isBefore(oldSound.getAge())) continue;
             }
+
+            closestSound = s;
         }
         return closestSound;
     }
