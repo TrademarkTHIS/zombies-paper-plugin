@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.world.GenericGameEvent;
 
 import java.time.Duration;
@@ -34,7 +36,7 @@ public class SoundEvents implements Listener {
     };
     public void alert(Player p, Location l, double radius) {
         if (alertSounds.get(p) != null) {
-            if (Duration.between(alertSounds.get(p).getAge(), Instant.now()).toMillis() < 15000) {
+            if (Duration.between(alertSounds.get(p).getAge(), Instant.now()).toMillis() < 5000) {
                 return;
             }
         }
@@ -56,6 +58,20 @@ public class SoundEvents implements Listener {
         if (event.getEntity() == null) return;
         if (event.getEntity().getType() != EntityType.PLAYER) return;
         this.alert((Player) event.getEntity(), event.getLocation(), 256);
+    }
+
+    @EventHandler
+    public void onItemBreak(PlayerItemBreakEvent event) {
+        Player p = event.getPlayer();
+        this.alert(p, event.getPlayer().getLocation(), 256);
+    }
+
+    @EventHandler
+    public void onDamageAlert(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player)) return;
+        Player p = (Player) event.getDamager();
+
+        this.alert(p, event.getEntity().getLocation(), 256);
     }
 
 
