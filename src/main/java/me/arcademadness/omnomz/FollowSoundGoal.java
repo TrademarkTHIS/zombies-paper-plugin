@@ -92,9 +92,9 @@ public class FollowSoundGoal implements Goal<Zombie> {
             this.stop();
         }
         if (lastLocation == null) lastLocation = mob.getLocation();
-        if (mob.getLocation().distance(lastLocation) < 8) {
+        if (mob.getLocation().distance(lastLocation) <= 4) {
             careTimer++;
-            if (careTimer > 120) {
+            if (careTimer > 60) {
                 careTimer = 0;
                 lastLocation = null;
                 oldSound = targetSound;
@@ -132,14 +132,16 @@ public class FollowSoundGoal implements Goal<Zombie> {
             if (s.getAge().isBefore(startTime)) continue;
             if (s.getLocation().distance(mob.getLocation()) > s.getRange()) continue;
             if (s.isSame(oldSound)) continue;
-            if (closestSound == null) closestSound = s;
-            if (s.getLocation().distance(mob.getLocation()) > closestSound.getLocation().distance(mob.getLocation())) continue;
 
             if (oldSound != null) {
                 if (s.getAge().isBefore(oldSound.getAge())) continue;
+                if (s.getLocation().distance(oldSound.getLocation()) < 32) {
+                    continue;
+                }
             }
 
-            closestSound = s;
+            if (closestSound == null) closestSound = s;
+            if (s.getLocation().distance(mob.getLocation()) < closestSound.getLocation().distance(mob.getLocation())) closestSound = s;
         }
         return closestSound;
     }

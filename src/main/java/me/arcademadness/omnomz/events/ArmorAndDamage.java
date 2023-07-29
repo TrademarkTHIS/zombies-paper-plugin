@@ -29,6 +29,7 @@ public class ArmorAndDamage implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
         double hitChance = 20;
+        if (!(event.getEntity() instanceof LivingEntity)) return;
 
         LivingEntity victim = (LivingEntity) event.getEntity();
         Entity attacker = event.getDamager();

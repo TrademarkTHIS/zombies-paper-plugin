@@ -1,7 +1,6 @@
 package me.arcademadness.omnomz;
 
 import org.bukkit.Location;
-
 import java.time.Instant;
 
 public class SoundObject {
