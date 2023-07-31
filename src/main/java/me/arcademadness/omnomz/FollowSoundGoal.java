@@ -5,6 +5,7 @@ import com.destroystokyo.paper.entity.ai.GoalKey;
 import com.destroystokyo.paper.entity.ai.GoalType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -84,6 +85,14 @@ public class FollowSoundGoal implements Goal<Zombie> {
             targetSound = null;
             startTime = Instant.now();
             this.stop();
+        }
+        if (mob.getPathfinder().getCurrentPath() != null) {
+            if ((mob.getPathfinder().getCurrentPath().getNextPoint() != null && mob.getPathfinder().getCurrentPath().getNextPoint().getBlock().getType() == Material.WATER) || (mob.getPathfinder().getCurrentPath().getFinalPoint() != null && mob.getPathfinder().getCurrentPath().getFinalPoint().getBlock().getType() == Material.WATER)) {
+                oldSound = targetSound;
+                targetSound = null;
+                startTime = Instant.now();
+                this.stop();
+            }
         }
         if (mob.getTarget() != null) {
             oldSound = targetSound;

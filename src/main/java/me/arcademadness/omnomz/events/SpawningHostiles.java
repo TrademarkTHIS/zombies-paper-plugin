@@ -1,10 +1,13 @@
 package me.arcademadness.omnomz.events;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,8 +23,8 @@ public class SpawningHostiles implements Listener {
             LivingEntity le = (LivingEntity) event.getEntity();
             List<Entity> totalSaved = new ArrayList<>();
 
-            le.setHealth(le.getHealth() / 3);
-            le.setMaxHealth(le.getMaxHealth() / 3);
+            le.setHealth(le.getHealth() / 2);
+            le.setMaxHealth(le.getMaxHealth() / 2);
 
             if (le.getLocation().y() > 62) {
                 List<Entity> totalEntities = event.getLocation().getWorld().getEntities();
@@ -63,5 +66,12 @@ public class SpawningHostiles implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPickupZombie(EntityPickupItemEvent event) {
+        if (!Arrays.asList(mobs).contains(event.getEntity().getType())) return;
+
+        if (event.getItem().getItemStack().isSimilar(new ItemStack(Material.ROTTEN_FLESH))) { event.setCancelled(true); }
     }
 }

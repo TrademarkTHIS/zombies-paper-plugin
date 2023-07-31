@@ -6,7 +6,6 @@ import me.arcademadness.omnomz.commands.SniperCommand;
 import me.arcademadness.omnomz.commands.SummonCommand;
 import me.arcademadness.omnomz.events.*;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,7 +30,7 @@ public final class Main extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new SoundEvents(), this);
         pm.registerEvents(new ArmorAndDamage(), this);
-        pm.registerEvents(new DisableZombieFire(), this);
+        pm.registerEvents(new EntityFire(), this);
         pm.registerEvents(new SpawningHostiles(), this);
         pm.registerEvents(new MakeZombieJump(), this);
         pm.registerEvents(new VillagerToZombie(), this);
