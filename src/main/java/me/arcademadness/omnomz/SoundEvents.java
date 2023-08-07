@@ -5,11 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameEvent;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -97,29 +93,29 @@ public class SoundEvents implements Listener {
     @EventHandler
     public void onNewZombie(EntityAddToWorldEvent event) {
         if (!Arrays.asList(mobs).contains(event.getEntity().getType())) return;
-        Zombie z = (Zombie) event.getEntity();
-        Objects.requireNonNull(z.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(256);
-        FollowSoundGoal goal = new FollowSoundGoal(Main.getPlugin(), z);
-        if (!Bukkit.getMobGoals().hasGoal(z, goal.getKey())) {
-            Bukkit.getMobGoals().addGoal(z, 3, goal);
+        if (event.getEntity().getType() != EntityType.DROWNED) {
+            Zombie z = (Zombie) event.getEntity();
+            FollowSoundGoal goal = new FollowSoundGoal(Main.getPlugin(), z);
+            if (!Bukkit.getMobGoals().hasGoal(z, goal.getKey())) {
+                Bukkit.getMobGoals().addGoal(z, 3, goal);
+            }
         }
     }
 
     @EventHandler
     public void onLoad(PluginEnableEvent event) {
         Logger log = Bukkit.getLogger();
-        log.info("HELLO FRIENDS!");
         int zombiecount = 0;
         for (World w : Bukkit.getServer().getWorlds()) {
-            for (Entity e : Bukkit.getServer().getWorld(w.getKey()).getEntities()) {
-                if (e == null) continue;
+            for (Entity e : Objects.requireNonNull(Bukkit.getServer().getWorld(w.getKey())).getEntities()) {
                 if (!Arrays.asList(mobs).contains(e.getType())) continue;
-                Zombie z = (Zombie) e;
-                Objects.requireNonNull(z.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(256);
-                FollowSoundGoal goal = new FollowSoundGoal(Main.getPlugin(), z);
-                Bukkit.getMobGoals().removeGoal(z, goal);
-                Bukkit.getMobGoals().addGoal(z, 3, goal);
-
+                if (e.getType() != EntityType.DROWNED) {
+                    Zombie z = (Zombie) e;
+                    FollowSoundGoal goal = new FollowSoundGoal(Main.getPlugin(), z);
+                    if (!Bukkit.getMobGoals().hasGoal(z, goal.getKey())) {
+                        Bukkit.getMobGoals().addGoal(z, 3, goal);
+                    }
+                }
                 zombiecount++;
             }
         }

@@ -27,9 +27,17 @@ public class EntityFire implements Listener {
     @EventHandler
     public void onZombieFire(EntityDamageEvent event) {
         if ( event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
+            if (event.getEntity().getType() == EntityType.DROPPED_ITEM
+                    || event.getEntity().getType() == EntityType.ITEM_FRAME
+                    || event.getEntity().getType() == EntityType.ITEM_DISPLAY
+                    || event.getEntity().getType() == EntityType.GLOW_ITEM_FRAME) return;
             List<Entity> entities = event.getEntity().getNearbyEntities(0.95, 0.95, 0.95);
             Entity victim = null;
             for (Entity e : entities) {
+                if (e.getType() == EntityType.DROPPED_ITEM
+                        || e.getType() == EntityType.ITEM_FRAME
+                        || e.getType() == EntityType.ITEM_DISPLAY
+                        || e.getType() == EntityType.GLOW_ITEM_FRAME) continue;
                 if (entities.size() > 2) {
                     if (victim == null)
                         victim = e;

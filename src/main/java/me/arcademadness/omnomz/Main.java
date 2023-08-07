@@ -1,8 +1,6 @@
 package me.arcademadness.omnomz;
 
-import me.arcademadness.omnomz.commands.BetweenCommand;
 import me.arcademadness.omnomz.commands.HelpCommand;
-import me.arcademadness.omnomz.commands.SniperCommand;
 import me.arcademadness.omnomz.commands.SummonCommand;
 import me.arcademadness.omnomz.events.*;
 import org.bukkit.Bukkit;
@@ -24,8 +22,8 @@ public final class Main extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("zombies")).setExecutor(new HelpCommand());
         Objects.requireNonNull(this.getCommand("zsummon")).setExecutor(new SummonCommand());
-        Objects.requireNonNull(this.getCommand("zsniper")).setExecutor(new SniperCommand());
-        Objects.requireNonNull(this.getCommand("zbetween")).setExecutor(new BetweenCommand());
+        //Objects.requireNonNull(this.getCommand("zsniper")).setExecutor(new SniperCommand());
+        //Objects.requireNonNull(this.getCommand("zbetween")).setExecutor(new BetweenCommand());
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new SoundEvents(), this);
@@ -34,6 +32,7 @@ public final class Main extends JavaPlugin {
         pm.registerEvents(new SpawningHostiles(), this);
         pm.registerEvents(new MakeZombieJump(), this);
         pm.registerEvents(new VillagerToZombie(), this);
+        pm.registerEvents(new MilkEvent(), this);
 
         log.info("omnnomz loaded successfully :)");
     }
