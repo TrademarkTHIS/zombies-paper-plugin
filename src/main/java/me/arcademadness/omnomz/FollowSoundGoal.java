@@ -117,7 +117,6 @@ public class FollowSoundGoal implements Goal<Zombie> {
         }
     }
 
-
     @Override
     public @NotNull GoalKey<Zombie> getKey() {
         return key;
